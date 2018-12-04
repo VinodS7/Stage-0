@@ -469,7 +469,16 @@ MIR
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart{M}{usic} Talk about large collections of data and where they are used. Then talk about issues and challenges that lead to anomaly detection as a solution. Then talk about challenges that lead to adversarial attacks and defenses as a solution.
+\begin{enumerate}
+\item Introduce the increasing importance of data and how there is an abundance of large collections of data in the world 
+\item Give examples of movie collections, music streaming, personal information, instagram, youtube etc.
+\item This data has facilitated research in deep learning. So a combination of an abundance of data and better computing has brought about a new age of deep learning
+\item Challenge with larger datasets is mislabelling, data corruption, noise which are currently being done by mostly manual curation there is a need to work on automatic methods to curate. Practically this manifests as when you have live data coming in quickly identifying an error.
+\item Challenge with deep learning is that while deploying them in the real world you need to be sure they are working well and always perform as expected, in effect they must be robust to noise
+\item ROLI is interested in problems such as acoustic instrument dataset creation where high quality recordings are key, so an automatic method to identify faulty recordings that don't meet the standard
+\item ROLI is interested in high accuracy and highly robust deep learning models that they can confidently release to their customers so there is a need to do research in investigating robustness
+\end{enumerate}
+ 
 
 	
 % You must have at least 2 lines in the paragraph with the drop letter
@@ -477,40 +486,47 @@ MIR
 
 \section{Related Work}
 
+\subsection{Adversarial attacks}
+\begin{enumerate}
+\item Discovery of adversarial examples where small perturbations in data causes high accuracy deep learning models to misclassify the input
+\item Further, these adversarial examples were transferable between different models which is alarming
+\item More and more efficient and cheap ways to generate adversarial attacks were discovered in an attempt to understand the underlying problem of deep learning models
+\item Simultaneous work on solving these attacks became popular with distilled learning methods
+\item More state of the art approaches towards defending from attacks happened
+\item Most research was in computer vision or natural language processing, Carlini found that some of these adversarial attacks work in audio as well
+\item Bob Sturm showed that these attacks exist in music too
+\end{enumerate}
+
+
+
 \subsection{Anomaly detection}
 \begin{enumerate}
 \item Summarize the survey paper on anomaly detection from 2007. This survey paper talks a lot about older approaches to anomaly detection that are still relevant
 
-\item For mechanical failures there are deep learning aproaches for anomaly detection, mostly inspired by the fact that it is harder to define the anomaly. 
+\item For mechanical failures there are deep learning approaches for anomaly detection, mostly inspired by the fact that it is harder to define the anomaly. 
 
 \item Work done on anomaly detection in medicine to identify diseases from measurements automatically
 
-\item Work done on anomaly detection on GTZAN dataset using classicalmachine learning and on mammal sound recognition
+\item Work done on anomaly detection on GTZAN dataset using classical machine learning and on mammal sound recognition
 \end{enumerate}
 
 
-\subsection{Adversarial attacks}
-\begin{enumerate}
-\item Discovery of adversarial examples and the conclusion that the cause was non-linearity
-\item Transferability of adversarial examples between models and datasets
-\item Different defenses against the atttacks
-\item Adversarial attacks in speech and music
-\end{enumerate}
+
 
 \section{Research questions and methods}
 
 \subsection{Recreating adversarial attack experiments in audio}
 \begin{enumerate}
-\item Transferring adversarial examples in audio between models with identical inputs
-\item Can adversarial examples be played over the air
-\item Can you create a universal perturbation that has a high chance of making an audio an adversarial example
-\item Robustness of adversarial examples to different types of compression
+\item Transferring adversarial examples in audio between models with identical inputs: In computer vision they found that adversarial examples generated in one model served as an adversarial example in another model. This indicates that there seems to be some fundamental way in which we train deep learning models that make them susceptible to errors
+\item Can adversarial examples be played over the air: In computer vision a photo of an adversarial example taken from a phone camera still works as an adversarial example
+\item Can you create a universal perturbation that has a high chance of making an audio an adversarial example: In computer vision they came up with a universal method to create an adversarial example
 \end{enumerate}
 
 \subsection{Adversarial attacks for audio}
 \begin{enumerate}
 \item Unlike computer vision audio domain uses different types of input features for deep learning. It would be interesting to see if it is possible to design an adversarial attack in the time domain that is robust to the different input representations
-\item Design attacks for a specific task such as singing voice transcription. Singing voice transcription has a few different high accuracy models to work with so it is a good candidate to perform adversarial attacks on.
+\item Design attacks for a specific task such as singing voice transcription. Singing voice transcription has a few different high accuracy models to work with so it is a good candidate to perform adversarial attacks on
+\item Some research is done showing that mp3 compression preserves the adversarial examples but it would be interesting to try different bitrates and different compression methods
 \end{enumerate}
 
 \subsection{Defenses against attacks}
@@ -525,7 +541,7 @@ MIR
 \item
 \end{enumerate}
 \section{Timeline}
-Table listing different projects, their timeline and targetted conferences 
+Table listing different projects, their timeline and targeted conferences 
 
 
 %second column of first page if using \IEEEpubid
