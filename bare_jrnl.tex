@@ -510,6 +510,22 @@ By choosing $\eta$ carefully so that it is aligned in the direction of the weigh
 
 Goodfellow, Shlens and Szegedy \cite{goodfellow_explaining_2014} used this assumption on deep learning models to generate adversarial examples and came up with a family of fast gradient approaches to generate adversarial examples. The success of these adversarial examples lent credence to the fact that deep learning models are susceptible to adversarial examples on account of being too linear.
 
+Before we give more details about different types of adversarial attacks and defenses against these attacks we'll list the different categories of adversarial attacks. The category of an adversarial attack is determined by either the goal of the adversary or the information the adversary has of the classifier.
+
+Goal of the adversary:
+\begin{enumerate}
+\item Untargeted attack - The adversary's goal is to simply misclassify the input. As long as the new target class of the classifier is different from the original the adversary has achieved its goal.
+\item Targeted attack - The adversary's goal is to change the label from the original to a different label that is specified before the attack begins. Because there are more constraints in the targeted attack it is typically harder to generate targeted adversarial examples as opposed to untargeted adversarial examples.
+\end{enumerate}
+
+Information of the adversary:
+\begin{enumerate}
+\item Perfect knowledge - In this scenario the adversary has perfect knowledge of the classifier such as the feature space, the weights of the model and the type of classifier. This is also known as a white box attack.
+\item Limited knowledge - The classifier does not know the training data or the trained model but has knowledge about the feature representation and the type of classifier. This could be considered a black box attack.
+\item Zero knowledge - This is a special case where an adversarial example is generated for one classifier and then tested on a different classifier which it has no information about.
+\end{enumerate}
+
+In the following sections I will introduce different techniques for attacks, different techniques for defenses and some unique properties of adversarial attacks such as universal perturbation, transferability of adversarial examples and adversarial examples in the real world. Finally I will highlight the existing body of work that explores adversarial attacks in audio and talk about existing deep learning tasks in music information retrieval (MIR) that would be a good starting point for research into adversarial attacks in music.
 
 
 \subsection{Summary of attacks}
@@ -529,8 +545,8 @@ If the perturbation $\eta$ is aligned with the weights then the perturbation has
 Biggio et al. \cite{biggio_evasion_2013} approached the problem of adversarial attacks from the perspective of security and defined broadly two scenarios for attack: 
 
 \begin{enumerate}
-\item Perfect knowledge: In this scenario the adversary has perfect knowledge of the classifier such as the feature space, the weights of the model and the type of classifier. This is also known as a white box attack.
-\item Limited knowledge: The classifier does not know the training data or the trained model but has knowledge about the feature representation and the type of classifier. This could be considered a black box attack.
+\item Perfect knowledge: 
+\item Limited knowledge: 
 \end{enumerate}
 
 
