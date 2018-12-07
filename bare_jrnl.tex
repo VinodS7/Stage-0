@@ -157,7 +157,8 @@
 
 % *** MATH PACKAGES ***
 %
-%\usepackage{amsmath}
+\usepackage{amsmath}
+\usepackage{amssymb}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics.
 %
@@ -531,19 +532,46 @@ In the following sections I will introduce different techniques for attacks, dif
 \subsection{Summary of attacks}
 
 \begin{enumerate}
-\item L-BFGS - Szegedy et al. \cite{szegedy} introduced a method where the goal was to solve the following optimization problem:
+\item L-BFGS - Szegedy et al. \cite{szegedy_intriguing_2013} introduced one of the first methods for generating adversarial attacks, it is a white box attack that is targeted.
 
-The exact computation of this problem is difficult so it is approximated using the box constrained L-BFGS algorithm.
+Assume a classifier denoted as $f : \mathbb{R}^m \rightarrow \{1...k\} $ with a loss function $loss_f$. For a given input $x \in \mathbb{R}^m$ and target $t \in \{1....k\}$ we aim to identify the value of perturbation $r$ as formulated below:
+\begin{align*}
+&  \text{Minimize L-2 norm of r under the conditions:}\\
+& f(x+r)= t \\
+& x+r\in [0,1]^m
+\end{align*}
+
+The exact computation of this problem is difficult so it is approximated using the box constrained L-BFGS algorithm. So the new equation to minimize is:
+\begin{align*}
+c \vert r \vert + loss_f(x+r,l) && \text{under the conditions $x+r \in [0,1]^m$}
+\end{align*}
 
 \item Fast Gradient Sign Method - The goal of this method is to quickly generate a simple adversarial examples. By perturbing the input in the direction of the gradient of the weights of the model by a sufficient amount it can create an adversarial example \cite{goodfellow_explaining_2014}. Let $x$ be the input to the model and $y$ be the output, the model parameters are $\theta$. The cost function of the model is $J(\theta,x,y)$. With this information we can create an adversarial example by computing the perturbation $\eta$ using the formula:
 
 \begin{equation}
-\eta = \epsilon sign(\delta_x J(\theta,x,y))
+\eta = \epsilon sign(\triangledown_x J(\theta,x,y))
 \end{equation}
 
 In this equation $\epsilon$ is decided manually until the formula causes a perturbation. This technique was refined by making the process iterative and computing the gradient repeatedly and showed improved results.
 
-\item Jacobian based Saliency Map Attack - In this technique the saliency maps are used to find what part of the input has the most impact on the output and starts by changing the value of the most important. The algorithm iteratively goes down the list of most important pixels until either the distortion limit is reached or the input is misclassified successfully.
+\item Jacobian based Saliency Map Attack (JSMA) - Papernot et al. \cite{papernot_limitations_2015} introduced a white box attack which requires knowledge of the model parameters but does not require knowledge of the training data, it is a targeted attack. The goal of the algorithm is to identify the pixels in the input that impact the output the most and perturb these important pixels to change the output to the target output. 
+
+Assume a classifier denoted as $f$ with output dimensions $N$ that takes $\bold{X} \in \mathbb{R}^M$ as an input. The first step is to compute the forward derivative:
+\begin{align*}
+\triangledown f &= \frac{\partial f(\bold{X})}{\partial \bold{X}}\\
+&= \frac{\partial f_j(\bold{X})}{\partial x_i} \ i \in 1..M,j\in 1..N
+\end{align*}
+This is essentially the Jacobian matrix of the function denoted by $f$. The computation of this forward derivative can be simplified using the chain rule. The next step is to compute the saliency map \cite{simonyan_deep_2013} based on the forward derivative. The saliency map shows which input features are most important in determining the output.
+\begin{align*}
+\text{For $i \in 1..M$ and $t$ as target output}\\
+S(\bold{X},t) [i] = 
+\begin{cases}
+0 \ \text{if} \ \frac{\partial f_t(\bold{X})}{\bold{X}_i}<0 \ \text{or} \sum_{j \neq t} \frac{\partial f_j(\bold{X})}{\bold{X}_i} > 0\\
+\\
+\Big(\frac{\partial f_t(\bold{X})}{\bold{X}_i}\Big)\Big\vert \sum_{j \neq t} \frac{\partial f_j(\bold{X})}{\bold{X}_i} \Big \vert \ \text{otherwise}
+\end{cases}
+\end{align*}
+From the saliency map we identify the input $x_i$ that has the highest impact on the target output and perturb it by parameter $theta$ that is problem specific. This process is repeated iteratively and the maximum iteration is determined by the distortion limit $\gamma$. The distortion limit is manually set at the boundary at which humans can observe the distortion and is problem specific.
 \item DeepFool - 
 \item Carlini and Wagner - 
 \end{enumerate}
