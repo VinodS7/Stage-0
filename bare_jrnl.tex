@@ -530,7 +530,29 @@ In the following sections I will introduce different techniques for attacks, dif
 
 \subsection{Summary of attacks}
 
+\begin{enumerate}
+\item L-BFGS - Szegedy et al. \cite{szegedy} introduced a method where the goal was to solve the following optimization problem:
+
+The exact computation of this problem is difficult so it is approximated using the box constrained L-BFGS algorithm.
+
+\item Fast Gradient Sign Method - The goal of this method is to quickly generate a simple adversarial examples. By perturbing the input in the direction of the gradient of the weights of the model by a sufficient amount it can create an adversarial example \cite{goodfellow_explaining_2014}. Let $x$ be the input to the model and $y$ be the output, the model parameters are $\theta$. The cost function of the model is $J(\theta,x,y)$. With this information we can create an adversarial example by computing the perturbation $\eta$ using the formula:
+
+\begin{equation}
+\eta = \epsilon sign(\delta_x J(\theta,x,y))
+\end{equation}
+
+In this equation $\epsilon$ is decided manually until the formula causes a perturbation. This technique was refined by making the process iterative and computing the gradient repeatedly and showed improved results.
+
+\item Jacobian based Saliency Map Attack - In this technique the saliency maps are used to find what part of the input has the most impact on the output and starts by changing the value of the most important. The algorithm iteratively goes down the list of most important pixels until either the distortion limit is reached or the input is misclassified successfully.
+\item DeepFool - 
+\item Carlini and Wagner - 
+\end{enumerate}
+
 \subsection{Summary of defenses}
+
+\begin{enumerate}
+\item Defensive distillation - 
+\end{enumerate}
 
 \subsection{Adversarial attacks in audio}
 \subsection{Adversarial attacks}
@@ -543,12 +565,6 @@ Following this research Goodfellow, Shlens and Szegedy \cite{goodfellow_explaini
 If the perturbation $\eta$ is aligned with the weights then the perturbation has the potential to change the output significantly. The argument was that a lot of LSTMs, ReLUs etc. were intentially designed to behave linearly in order to make them easier to optimize. So, if we assume linearity, by using the formula listed above we can use the sign of the weights to analytically generate perturbations easily. This method for generating adversarial examples was called "fast gradient sign method".
 
 Biggio et al. \cite{biggio_evasion_2013} approached the problem of adversarial attacks from the perspective of security and defined broadly two scenarios for attack: 
-
-\begin{enumerate}
-\item Perfect knowledge: 
-\item Limited knowledge: 
-\end{enumerate}
-
 
 \begin{enumerate}
 \item Discovery of adversarial examples where small perturbations in data causes high accuracy deep learning models to misclassify the input
