@@ -470,22 +470,15 @@ MIR
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-Deep learning is having an increasing prescence in the day to day lives of people around the world. In recent years with the improving computing capatabilities of devices the public is utlising deep learning algorithms in their day to day lives. Whether it be voice recognition systems, music recommendation algorithms, tv show recommendation algorithms, filters to warp images they all use different types of deep learning approaches. 
 
-One of the reasons for the success of deep learning is the fact that it can learn complex non-linear functions with relatives ease. it does with the use of many hidden layers. According the universal approximation theorem \cite{} it can approximate any function. The flipside to using deep learning models is that it is difficult to understand what a deep learning model is actually learning.
+One of the biggest challenges of deep learning that remains today is the interpretability of what the deep learning model is learning. Due to the non-linearity and complexity of these models it is not a simple task to understand exactly what is being learned. With deep learning models slowly making their way into the real world and become a fixture of our daily lives it is even more important for us to understand what deep learning models are learning and what are the risks associated with deploying these deep learning models in the world.
 
-This inability to understand what is being learned by a deep learning model makes it difficult to understand whether a deep learning model will perform reliably when deployed for public use. 
+Recent research has shown that by perturbing the input to a deep learning model by an imperceptible amount of non-random values we can change the output of the classifier. These "attacks" to the model are referred to as adversarial attacks. This means that we can misclassify objects, misclassify speech to text etc. Some of these have security and safety consequences. If a self driving car incorrectly classifies a wall as a road it could lead to dangerous accidents. 
 
+The security aspect of adversarial attacks is often talked about but there is another, more fundamental question. Are we fundamentally training deep learning networks the wrong way? The success of adversarial attacks seems to indicate that there is a huge flaw in the assumption that deep learning models are learning in a manner that humans can interpret and understand.
 
-\begin{enumerate}
-\item Introduce the increasing importance of data and how there is an abundance of large collections of data in the world 
-\item Give examples of movie collections, music streaming, personal information, instagram, youtube etc.
-\item This data has facilitated research in deep learning. So a combination of an abundance of data and better computing has brought about a new age of deep learning
-\item Challenge with larger datasets is mislabelling, data corruption, noise which are currently being done by mostly manual curation there is a need to work on automatic methods to curate. Practically this manifests as when you have live data coming in quickly identifying an error.
-\item Challenge with deep learning is that while deploying them in the real world you need to be sure they are working well and always perform as expected, in effect they must be robust to noise
-\item ROLI is interested in problems such as acoustic instrument dataset creation where high quality recordings are key, so an automatic method to identify faulty recordings that don't meet the standard
-\item ROLI is interested in high accuracy and highly robust deep learning models that they can confidently release to their customers so there is a need to do research in investigating robustness
-\end{enumerate}
+So far adversarial attacks are explored in the computer vision domain and reinforcement learning domain. If we are to arrive at general observations and solutions to adversarial attacks and defenses we need to study this phenomenon in different domains and see what is generalizable and what is unique to a particular domain. I want my PhD to focus on  exploring adversarial attacks and defenses in the  area of music information retrieval (MIR).  
+
  
 
 	
@@ -536,7 +529,7 @@ In the following sections I will introduce different techniques for attacks, dif
 
 Assume a classifier denoted as $f : \mathbb{R}^m \rightarrow \{1...k\} $ with a loss function $loss_f$. For a given input $x \in \mathbb{R}^m$ and target $t \in \{1....k\}$ we aim to identify the value of perturbation $r$ as formulated below:
 \begin{align*}
-&  \text{Minimize L-2 norm of r under the conditions:}\\
+&  \text{Minimize  $\Vert r \Vert_2$ under the conditions:}\\
 & f(x+r)= t \\
 & x+r\in [0,1]^m
 \end{align*}
@@ -573,38 +566,40 @@ S(\bold{X},t) [i] =
 \end{align*}
 From the saliency map we identify the input $x_i$ that has the highest impact on the target output and perturb it by parameter $theta$ that is problem specific. This process is repeated iteratively and the maximum iteration is determined by the distortion limit $\gamma$. The distortion limit is manually set at the boundary at which humans can observe the distortion and is problem specific.
 \item DeepFool - 
-\item Carlini and Wagner - 
+\item Carlini and Wagner - Carlini and Wagner introduce a strong set of attacks based on the $L_0$, $L_2$ and $L_inf$ distance \cite{C&W}. The problem for adversarial attacks is formulated the same was as Szegedy et al. \cite{szegedy_}. The classifier is denoted as $C$ with input $x$:
+\begin{align*}
+\text{Minimize} \ D(x,x+\delta) + c. f(x + \delta) \\
+\text{such that} \ x + \delta \in [0,1]^n
+\end{align*}
+
+Here $D$ is a distance function that is either the $L_0$, $L_2$ or $L$ norm and $f$ is an objective that simplifies the problem such that:
+\begin{align*}
+C(x + \delta) &= t \ \text{is true if} \ f(x + \delta) \leq 0\\
+f(x') &= (max(Z(x')_i) - Z(x')_t)^+ \ i \neq t
+\end{align*}
+In the equation for $f$, $Z$ denotes the penultimate layer of the classifier, i.e the softmax values and $t$ is the target class. This is just one example of a the function $f$ many other functions work and can be found in the paper \cite{C&W}. Carlini and Wagner \cite{C&W} take care of the box constraint issue on $x + \delta$ by changing the variables with the substitution:
+\begin{align*}
+\delta_i = \frac{1}{2}(tanh(w_i) + 1) - x_i
+\end{align*}
+
 \end{enumerate}
 
+\subsection{Properties of adversarial attacks}
+In this section we'll highlight a few interesting properties of adversarial attacks which highlight the risk and importance of studying them in more detail.
+\begin{enumerate}
+\item Transferability of attacks - Papernot, Mcdaniel and Goodfellow \cite{PMG} showed that adversarial examples are transferrable between machine learning models that use the same technique. They went one step further and showed that the models don't need to be using the same technique but still have transferrable adversarial examples. Liu et al. \cite{Liu} showed that untargeted attacks are more transferrable than targeted attacks. In addition, they used an ensemble of models to create stronger adversarial attacks. Moosavi-Dezfooli et al. \cite{MD} created a universal perturbation that are image and network agnostic.
+\item Real world attacks - Research has shown that adversarial examples are not limited to the digital world of finely crafted adverseries. Kurakin, Goodfellow and Bengio \cite{G} showed that by printing and taking a photo of an adversarial example there are a significant number of cases for which it remains an adversary. Athalye et al. \cite{A} created a framework in which objects can be rendered in 3-D and be printed and serve as adversarial examples for. Finally, Eykholt et al. \cite{E} developed and algorithm to create perturbations to generate adversarial examples that are physically realizable. 
+\end{enumerate}
 \subsection{Summary of defenses}
 
 \begin{enumerate}
 \item Defensive distillation - 
+\item Retraining - Adversarial training is where adversarial examples are introduced into the training process. Introduces a method where the goal through the new training is to correctly classify the adversarial examples. 
+\item Dimensionality reduction
+\item Statistical analysis
 \end{enumerate}
 
 \subsection{Adversarial attacks in audio}
-\subsection{Adversarial attacks}
-
-Deep learning has gained a lot of popularity in recent years with success in image recognition, test-to-speech, motion tracking and singing voice transcription. The success of deep learning is attributed to the fact that large non-linear models can be trained using back propogation. The tradeoff with these complex, non-linear models is that it is difficult to interpret what is being learned by the deep learning model. 
-
-Following this research Goodfellow, Shlens and Szegedy \cite{goodfellow_explaining_2014} suggested that adversarial examples exist due to the compounding effect of dot products through each layer of the neural network. This would mean that deep learning models are too linear. This idea can be expressed by the following equation:
-
-
-If the perturbation $\eta$ is aligned with the weights then the perturbation has the potential to change the output significantly. The argument was that a lot of LSTMs, ReLUs etc. were intentially designed to behave linearly in order to make them easier to optimize. So, if we assume linearity, by using the formula listed above we can use the sign of the weights to analytically generate perturbations easily. This method for generating adversarial examples was called "fast gradient sign method".
-
-Biggio et al. \cite{biggio_evasion_2013} approached the problem of adversarial attacks from the perspective of security and defined broadly two scenarios for attack: 
-
-\begin{enumerate}
-\item Discovery of adversarial examples where small perturbations in data causes high accuracy deep learning models to misclassify the input
-\item Further, these adversarial examples were transferable between different models which is alarming
-\item More and more efficient and cheap ways to generate adversarial attacks were discovered in an attempt to understand the underlying problem of deep learning models
-\item Simultaneous work on solving these attacks became popular with distilled learning methods
-\item More state of the art approaches towards defending from attacks happened
-\item Most research was in computer vision or natural language processing, Carlini found that some of these adversarial attacks work in audio as well
-\item Bob Sturm showed that these attacks exist in music too
-\end{enumerate}
-
-
 
 \subsection{Anomaly detection}
 \begin{enumerate}
