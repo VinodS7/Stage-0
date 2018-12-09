@@ -566,7 +566,7 @@ S(\bold{X},t) [i] =
 \end{align*}
 From the saliency map we identify the input $x_i$ that has the highest impact on the target output and perturb it by parameter $theta$ that is problem specific. This process is repeated iteratively and the maximum iteration is determined by the distortion limit $\gamma$. The distortion limit is manually set at the boundary at which humans can observe the distortion and is problem specific.
 \item DeepFool - 
-\item Carlini and Wagner - Carlini and Wagner introduce a strong set of attacks based on the $L_0$, $L_2$ and $L_inf$ distance \cite{C&W}. The problem for adversarial attacks is formulated the same was as Szegedy et al. \cite{szegedy_}. The classifier is denoted as $C$ with input $x$:
+\item Carlini and Wagner - Carlini and Wagner introduce a strong set of attacks based on the $L_0$, $L_2$ and $L_inf$ distance \cite{carlini_towards_2016}. The problem for adversarial attacks is formulated the same was as Szegedy et al. \cite{szegedy_intriguing_2013}. The classifier is denoted as $C$ with input $x$:
 \begin{align*}
 \text{Minimize} \ D(x,x+\delta) + c. f(x + \delta) \\
 \text{such that} \ x + \delta \in [0,1]^n
@@ -577,7 +577,7 @@ Here $D$ is a distance function that is either the $L_0$, $L_2$ or $L$ norm and 
 C(x + \delta) &= t \ \text{is true if} \ f(x + \delta) \leq 0\\
 f(x') &= (max(Z(x')_i) - Z(x')_t)^+ \ i \neq t
 \end{align*}
-In the equation for $f$, $Z$ denotes the penultimate layer of the classifier, i.e the softmax values and $t$ is the target class. This is just one example of a the function $f$ many other functions work and can be found in the paper \cite{C&W}. Carlini and Wagner \cite{C&W} take care of the box constraint issue on $x + \delta$ by changing the variables with the substitution:
+In the equation for $f$, $Z$ denotes the penultimate layer of the classifier, i.e the softmax values and $t$ is the target class. This is just one example of a the function $f$ many other functions work and can be found in the paper \cite{carlini_towards_2016}. Carlini and Wagner \cite{carlini_towards_2016} take care of the box constraint issue on $x + \delta$ by changing the variables with the substitution:
 \begin{align*}
 \delta_i = \frac{1}{2}(tanh(w_i) + 1) - x_i
 \end{align*}
@@ -587,30 +587,20 @@ In the equation for $f$, $Z$ denotes the penultimate layer of the classifier, i.
 \subsection{Properties of adversarial attacks}
 In this section we'll highlight a few interesting properties of adversarial attacks which highlight the risk and importance of studying them in more detail.
 \begin{enumerate}
-\item Transferability of attacks - Papernot, Mcdaniel and Goodfellow \cite{PMG} showed that adversarial examples are transferrable between machine learning models that use the same technique. They went one step further and showed that the models don't need to be using the same technique but still have transferrable adversarial examples. Liu et al. \cite{Liu} showed that untargeted attacks are more transferrable than targeted attacks. In addition, they used an ensemble of models to create stronger adversarial attacks. Moosavi-Dezfooli et al. \cite{MD} created a universal perturbation that are image and network agnostic.
-\item Real world attacks - Research has shown that adversarial examples are not limited to the digital world of finely crafted adverseries. Kurakin, Goodfellow and Bengio \cite{G} showed that by printing and taking a photo of an adversarial example there are a significant number of cases for which it remains an adversary. Athalye et al. \cite{A} created a framework in which objects can be rendered in 3-D and be printed and serve as adversarial examples for. Finally, Eykholt et al. \cite{E} developed and algorithm to create perturbations to generate adversarial examples that are physically realizable. 
+\item Transferability of attacks - Papernot, Mcdaniel and Goodfellow \cite{papernot_transferability_2016} showed that adversarial examples are transferrable between machine learning models that use the same technique. They went one step further and showed that the models don't need to be using the same technique but still have transferrable adversarial examples. Liu et al. \cite{liu_delving_2016} showed that untargeted attacks are more transferrable than targeted attacks. In addition, they used an ensemble of models to create stronger adversarial attacks. Moosavi-Dezfooli et al. \cite{moosavi-dezfooli_universal_2016} created a universal perturbation that are image and network agnostic.
+\item Real world attacks - Research has shown that adversarial examples are not limited to the digital world of finely crafted adverseries. Kurakin, Goodfellow and Bengio \cite{kurakin_adversarial_2016} showed that by printing and taking a photo of an adversarial example there are a significant number of cases for which it remains an adversary. Athalye et al. \cite{athalye_synthesizing_2017} created a framework in which objects can be rendered in 3-D and be printed and serve as adversarial examples for. Finally, Eykholt et al. \cite{eykholt_robust_2017} developed and algorithm to create perturbations to generate adversarial examples that are physically realizable. 
 \end{enumerate}
 \subsection{Summary of defenses}
 
 \begin{enumerate}
-\item Defensive distillation - 
-\item Retraining - Adversarial training is where adversarial examples are introduced into the training process. Introduces a method where the goal through the new training is to correctly classify the adversarial examples. 
-\item Dimensionality reduction
-\item Statistical analysis
+\item Adversarial Retraining - The goal of retraining is to retrain the base model in order to be more robust to adversarial examples. Defensive distillation is one of the most popular ideas for defenses, distillation was introduced by Hinton et al. \cite{hinton_distilling_2015} and adapted by Papernot et al. \cite{papernot_distillation_2015}. In the retraining process the network architecture is kept the same except the target labels are the soft labels from the base network. Grosse et al.\cite{grosse_statistical_2017} suggested a method where an additional class is added in the retraining process for adversarial examples. Metzen et al. \cite{metzen_detecting_2017} add a subnetwork stemming from some layer that produces an output that gives the probabiliy of an example being an adversary. This solution does not directly classify an input as adversarial but it allows for human intervention evrytime the network is confused about the input.
+
+\item Principal Component Analysis (PCA) - PCA is a dimensionally reduction technique that maps an $N$ dimensional space into a smaller $M$ dimensional space, emphasizing the most important components in the data \cite{shlens_tutorial_2014}. Hendrycks and Gimpel \cite{hendrycks_early_2016} introduce a method of analyzing the lower components of PCA finding that they can be used to differentiate adversarial examples from real inputs. Bhagoji, Cullina and Mittal \cite{bhagoji_enhancing_2017} hypothesize that the dimensionality reduction of PCA causes noise reduction and use the reduced dimensions as an input to a classifier to determine whether an input is adversarial or not. Instead of applying PCA on the input directly Li and Li \cite{li_adversarial_2017} apply PCA on the convolutionaly layer outputs and using a cascade classifier \cite{viola_robust_nodate} to determine if the input is adversarial.
+
+\item Statistical analysis - There are some techniques which try to look at statistical features of the input to identify whether they are adversarial examples. Grosse et al. \cite{grosse_statistical_2017} suggest a method that uses Maximum Mean Discrepancy (MMD) \cite{gretton_kernel_2012} which is a technique for statistical technique to determine whether two randomly drawn samples originate from the same distribution. Using this they determined whether an input was an adversary or not. Feinman et al. \cite{feinman_detecting_2017} suggest a method that uses kernel density estimates. According to them the kernel density estimates can be used to model the submanifolds of each class and separate the adversarial examples from the real inputs.
 \end{enumerate}
 
 \subsection{Adversarial attacks in audio}
-
-\subsection{Anomaly detection}
-\begin{enumerate}
-\item Summarize the survey paper on anomaly detection from 2007. This survey paper talks a lot about older approaches to anomaly detection that are still relevant
-
-\item For mechanical failures there are deep learning approaches for anomaly detection, mostly inspired by the fact that it is harder to define the anomaly. 
-
-\item Work done on anomaly detection in medicine to identify diseases from measurements automatically
-
-\item Work done on anomaly detection on GTZAN dataset using classical machine learning and on mammal sound recognition
-\end{enumerate}
 
 
 
