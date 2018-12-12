@@ -338,6 +338,7 @@
 % http://www.ctan.org/pkg/url
 % Basically, \url{my_url_here}.
 
+\usepackage{makecell}
 
 
 
@@ -470,14 +471,21 @@ MIR
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
+Deep learning is becoming an increasingly popular approach to solve a lot of problems these days. One of the reasons for the popularity of deep learning is that it eliminates the need to perform domain expertise driven feature design. For example, in computer vision raw pixel data is used as the input to deep learning models without any pre-processing. It was shown that deep learning models are able to capture complex high level fefatures that would be far too difficult to design by a human being. 
 
-One of the biggest challenges of deep learning that remains today is the interpretability of what the deep learning model is learning. Due to the non-linearity and complexity of these models it is not a simple task to understand exactly what is being learned. With deep learning models slowly making their way into the real world and become a fixture of our daily lives it is even more important for us to understand what deep learning models are learning and what are the risks associated with deploying these deep learning models in the world.
+One of the biggest challenges of deep learning that remains today is the interpretability of the features being learned. Due to the non-linearity and complexity of these models it is not a simple task to understand exactly what is being learned. While we can study saliency maps to identify what neurons are being activated, it is still unclear as to what features are being learned exactly even when the model is performing really well.
 
-Recent research has shown that by perturbing the input to a deep learning model by an imperceptible amount of non-random values we can change the output of the classifier. These "attacks" to the model are referred to as adversarial attacks. This means that we can misclassify objects, misclassify speech to text etc. Some of these have security and safety consequences. If a self driving car incorrectly classifies a wall as a road it could lead to dangerous accidents. 
+The fact that there is lack of understanding of the underlying features poses the concern of how well can we trust the output of the system. Recent research \cite{szegedy_intriguing_2013} \cite{goodfellow_explaining_2014} has shown that it is possible to fool the classifier into misclassifying the input by applying an imperceptible non-random values to it. This exposed the vulnerability of deep learning and quickly became a popular area of research in security and privacy of image recognition algorithms. This concern for security exists in the voice recognition domain as well and in recent years understanding the vulnerabilities of voice recognition has also become a popular topic.
 
-The security aspect of adversarial attacks is often talked about but there is another, more fundamental question. Are we fundamentally training deep learning networks the wrong way? The success of adversarial attacks seems to indicate that there is a huge flaw in the assumption that deep learning models are learning in a manner that humans can interpret and understand.
+The more general conclusions that can be drawn from \cite{szegedy_intriguing_2013} and \cite{goodfellow_explaining_2014} is that deep learning models are not learning high level features as well as we expect them too. 
 
-So far adversarial attacks are explored in the computer vision domain and reinforcement learning domain. If we are to arrive at general observations and solutions to adversarial attacks and defenses we need to study this phenomenon in different domains and see what is generalizable and what is unique to a particular domain. I want my PhD to focus on  exploring adversarial attacks and defenses in the  area of music information retrieval (MIR).  
+\begin{enumerate}
+\item Talk about how it is important for copyright
+\item Important for more robust models
+\item Talk about original title of this project and how it evolved
+\item Classification of MIR tasks
+\item summary of rest of paper
+\end{enumerate}
 
  
 
@@ -487,12 +495,11 @@ So far adversarial attacks are explored in the computer vision domain and reinfo
 
 \section{Background}
 
-I'd like to see if I can create a summary of some of the research techniques used in some of the literature I am reviewing in the form of a table to compare techniques and performance.
 
 \subsection{What are adversarial attacks?}
-Szegedy et al. \cite{szegedy_intriguing_2013} discovered that in object recognition tasks by applying an imperceptible non-random perturbation to the input image the output of the network can be changed. The term "Adversarial examples" is used to describe these perturbed examples. These adversarial examples were attributed to the fact that there are blindspots in the training process for these deep learning models.
+Szegedy et al. \cite{szegedy_intriguing_2013} discovered that in object recognition tasks by applying an imperceptible non-random perturbation to the input image the output of the network can be changed. The term "Adversarial examples" is used to describe these perturbed examples. These adversarial examples were attributed to the fact that there are blindspots in the training process for these deep learning models. %Add image examples to demonstrate point
 
-Goodfellow, Shlens and Szegedy \cite{goodfellow_explaining_2014} challenged the idea that adversarial examples were due to blind spots in high dimensional spaces. Instead, they suggested that they are caused due to linearity in deep learning models. According to them LSTMS, ReLUs, maxout networks, CNNs etc. were intentiaonally designed to behave more linearly in order to make them easier to optimize. 
+Goodfellow, Shlens and Szegedy \cite{goodfellow_explaining_2014} challenged the idea that adversarial examples were due to blind spots in high dimensional spaces. Instead, they suggested that they are caused due to linearity in deep learning models. According to them LSTMS, ReLUs, maxout networks, CNNs etc. were intentiaonally designed to behave more linearly in order to make them easier to optimize. %Cite LSTMS, ReLUs and maxout
 
 Assume we have a linear classifier defined by the relationship $y = f(x)$ where $f(x)$ is given by $f(x) = \omega^{T}x$. Our goal is to perturb the input $x$ with perturbation $\eta$ subject to the condition that $D(x+\eta,x)<\epsilon$ where $D$ is some distance measure. We can write the new equation for the ouput of the classifier as:
 
@@ -502,7 +509,7 @@ Assume we have a linear classifier defined by the relationship $y = f(x)$ where 
 
 By choosing $\eta$ carefully so that it is aligned in the direction of the weights of the classifier $\omega$ the change in the output can be maximized. 
 
-Goodfellow, Shlens and Szegedy \cite{goodfellow_explaining_2014} used this assumption on deep learning models to generate adversarial examples and came up with a family of fast gradient approaches to generate adversarial examples. The success of these adversarial examples lent credence to the fact that deep learning models are susceptible to adversarial examples on account of being too linear.
+Goodfellow, Shlens and Szegedy \cite{goodfellow_explaining_2014} used this formulation for linear classifiers on deep learning models and came up with a family of fast gradient approaches to generate adversarial examples. The fact that they were able to generate adversarial examples by treating deep learning models as linear classifiers was used to support the argument that deep learning algorithms are too linear.
 
 Before we give more details about different types of adversarial attacks and defenses against these attacks we'll list the different categories of adversarial attacks. The category of an adversarial attack is determined by either the goal of the adversary or the information the adversary has of the classifier.
 
@@ -609,7 +616,19 @@ A drawback of this paper is that it relies on audio reconstruction to observe di
 
 
 \section{Research questions}
+\begin{enumerate}
+\item Implementing state of the art attack and defense algorithms for MIR tasks -
+While different types of attack and defense methods have been implemented and compared side by side for computer vision the same has not been done in MIR. The differences in input (audio vs image), the differences in the tasks, the data pre-processing etc. could make the results of this study different in music compared to vision. Even if the results are the same it is still important to recreate them in music to enable further research into the area.
 
+\item Verifying the properties of adversarial attacks in MIR tasks - 
+Some of the interesting properties of adversarial attacks were highlighted in the Background section. It would be interesting to see how transferable audio adversaries are between models, if there exists a universal perturbation to generate adversaries, are there real world audio adversaries etc.
+
+\item MIR specific properties - A quick glance at deep learning research in MIR will show that there is a large diversity of tasks in which deep learning is applied and even within a specific task and on a specific dataset there is large deviations in input representation. So it would be interesting to go one step further in terms of transferability of audio adversaries to see if they are transferable between different types of input representations and if they are transferable between related but different tasks (note onset detection vs fundamental pitch estimatation).
+ 
+\item Adversarial attacks for generative/transformative models: Most of the existing literature has focused on generating adversaries for classification tasks. in classification it is quite clear what the goal of the adversary is. However, with the increasing popularity of generative and transformative models in music applications it is important to explore adversarial attacks on generative models to ensure that 
+
+\item Multi-task learning as a defense against adversaries: The current understanding for the existence of adversarial examples is that deep learning models might be learning the most comprehensive set of features to define the input. The intent with exploring multi-task learning is that by having different output goals the model will be forced to learn a more complete set of features to explain the input.
+\end{enumerate}
 
 
 
@@ -629,8 +648,18 @@ Talk about dataset generation and licenses. Unclear on what exactly the new data
 
 \section{Timeline}
 
-Table listing different projects, their timeline and targeted conferences 
+\subsection{Project 1: Implementing existing attacks and defenses in MIR tasks}
+We start with the GTZAN dataset because there is previous work to compare our implementations and results to directly. 
+\subsection{Project 2: Testing on well defined MIR tasks}
+While working on implementing existing attacks and defenses in GTZAN we will identify a more well defined task to test the results on. Candidate tasks include instrument recognition, vocal activity detection.
 
+\subsection{Project 3: Verifying the properties of adversarial attacks for music}
+
+\subsection{Project 4: Identifying properties of adversarial examples in MIR}
+
+\subsection{Project 5: Multi-task learning as a defense}
+
+\subsection{Project 6: Adversaries for generative and transformative music applications}
 
 %second column of first page if using \IEEEpubid
 %\IEEEpubidadjcol
@@ -703,18 +732,40 @@ Table listing different projects, their timeline and targeted conferences
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
- if using array.sty, it might be a good idea to tweak the value of
 % \extrarowheight as needed to properly center the text within the cells
-\caption{An Example of a Table}
+\caption{Timeline for the project}
 \label{table_example}
 \centering
 % Some packages, such as MDW tools, offer better commands for making tables
 % than the plain LaTeX2e tabular which is used here.
 \begin{tabular}{|c||c|c|c|}
 \hline
-1 &  & &\\
+\textbf{S no.} & \textbf{Week No.} & \textbf{Resaerch ideas} & \textbf{Goals}\\
 \hline
-2 & Four & &\\
+\hline
+1 & February 2019 & \makecell{Reimplement Kereliuk, Sturm and Larsen \cite{kereliuk_deep_2015} with a \\ tensorflow implementation of spectrogram extraction} &Observe differences in perturbing spectrogram vs raw audio\\
+\hline
+2 & February 2019 & \makecell{Repeat the previous experiments with different attack \\methodologies} & \makecell{Understand the most effective and least\\effective attacks for music}\\
+\hline
+3 & February 2019 &\makecell{Implement existing defense methodologies and test their \\effectivesness against these attacks}  & \makecell{Identify topics to focus on} \\
+\hline
+4 & February 2019 & &\\
+\hline
+2 & February 2019 & &\\
+\hline
+2 & February 2019 & &\\
+\hline
+2 & February 2019 & &\\
+\hline
+2 & February 2019 & &\\
+\hline
+2 & February 2019 & &\\
+\hline
+2 & February 2019 & &\\
+\hline
+2 & February 2019 & &\\
+\hline
+2 & February 2019 & &\\
 \hline
 \end{tabular}
 \end{table}
