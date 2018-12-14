@@ -361,7 +361,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Stage 0: Adversarial attacks and anomaly detection in MIR}
+\title{Stage 0: Robust Deep Learning for Music Performance Analysis}
 %
 %
 % author names and IEEE memberships
@@ -471,13 +471,26 @@ MIR
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-Deep learning is becoming an increasingly popular approach to solve a lot of problems these days. One of the reasons for the popularity of deep learning is that it eliminates the need to perform domain expertise driven feature design. For example, in computer vision raw pixel data is used as the input to deep learning models without any pre-processing. It was shown that deep learning models are able to capture complex high level fefatures that would be far too difficult to design by a human being. 
+
+Music performance analysis can be simply defined as understanding specific features of the music in order to assess it for a specific purpose. A student might want to analyze a professional recording to understand better playing technique and  rhythm accuracy, a streaming service company might want to analyze music to create tags to help users browse through music easily, a music production company might want to organize sounds based on timbral similarity and pitch etc. So we can see that music performance analysis is of importance and there is a breadth of features that would help with the analysis of the music.
+
+In this PhD we want to focus on deep learning approaches towards learning these features. Research in the field of music information retrieval (MIR) has shown that deep learning is a good alternative to hand crafted features. As the field of deep learning in MIR matures we have an increasing number of new model architectures on the new datasets. This increase in new models and datasets makes it harder to compare which model is better.  
 
 One of the biggest challenges of deep learning that remains today is the interpretability of the features being learned. Due to the non-linearity and complexity of these models it is not a simple task to understand exactly what is being learned. While we can study saliency maps to identify what neurons are being activated, it is still unclear as to what features are being learned exactly even when the model is performing really well.
 
-The fact that there is lack of understanding of the underlying features poses the concern of how well can we trust the output of the system. Recent research \cite{szegedy_intriguing_2013} \cite{goodfellow_explaining_2014} has shown that it is possible to fool the classifier into misclassifying the input by applying an imperceptible non-random values to it. This exposed the vulnerability of deep learning and quickly became a popular area of research in security and privacy of image recognition algorithms. This concern for security exists in the voice recognition domain as well and in recent years understanding the vulnerabilities of voice recognition has also become a popular topic.
+The fact that there is lack of understanding of the underlying features poses the concern of how well can we trust the output of the system. Recent research \cite{szegedy_intriguing_2013} \cite{goodfellow_explaining_2014} has shown that it is possible to fool the classifier into misclassifying the input by applying an imperceptible non-random values to it. This exposed the vulnerability of deep learning and quickly became a popular area of research in security and privacy of image recognition algorithms. 
 
-The more general conclusions that can be drawn from \cite{szegedy_intriguing_2013} and \cite{goodfellow_explaining_2014} is that deep learning models are not learning high level features as well as we expect them too. 
+In music applications adversarial examples could pose a challenge in terms of identifying copyrighted content on websites. 
+
+The more general conclusions that can be drawn from \cite{szegedy_intriguing_2013} and \cite{goodfellow_explaining_2014} is that deep learning models are not learning high level features as well as we expect them too. So by using the techniques described in these papers we can indirectly determine whether deep learning models are learning high level features in way that we expect them to. 
+
+The original title for this project was 'Note level features for music performance analysis and visualization'. We will go through each part of this title and explain how it is related to robust deep learning and tied to the MIP-frontiers broader interest of research that gives back to the citizens of the European Union. Note level features include features such as pitch, onsets, playing technique, timbre etc. The purpose of these note level features is to capture the musical performance and transform them or generate new performances.
+
+These different note level features have already been studied in detail from signal processing to deep learning approaches. Before we start suggesting new deep learning methods that will improve the accuracy of these models on some dataset we want to understand if the features being learned are meaningful and understand how to develop a new system that captures features that are more musically meaningful. By using this work flow to create new deep learning models we hope to create more robust deep learning systems.
+
+We have listed many different types of MIR tasks which we are going to classify as follows:
+
+
 
 \begin{enumerate}
 \item Talk about how it is important for copyright
@@ -631,33 +644,49 @@ Some of the interesting properties of adversarial attacks were highlighted in th
 \end{enumerate}
 
 
-
-
-\section{Datasets}
-Talk about dataset generation and licenses. Unclear on what exactly the new dataset will be. Perhaps something like a simple dataset that serves as a toy example dataset for MIR tasks. Need to talk to ROLI and QMUL about resources and direction of PhD
-\section{Conferences}
-\begin{enumerate}
-\item ISMIR
-\item ICASSP
-\item ICLR
-\item NeurIPS
-\item EUSIPCO
-\item TISMIR
-\item ICML
-\end{enumerate}
-
 \section{Timeline}
 
 \subsection{Project 1: Implementing existing attacks and defenses in MIR tasks}
-We start with the GTZAN dataset because there is previous work to compare our implementations and results to directly. 
+The goal of this project is to bridge the gap between computer vision and music information retrieval on adversarial attacks and defenses. The dataset we are going to use is GTZAN  . GTZAN is a genre recognition dataset which contains 1000 tracks that are 30 seconds long each of 10 different genres. Genre recognition is one of the most popular tasks in music information retrieval with widespread commercial use. We can obtain different types of machine learning algorithms trained on genre recognition. In addition, previous work adversarial attacks in music used the GTZAN dataset to create adversarial examples \cite{kereliuk_deep_2015} so we can use it as a benchmark to compare our work. 
+
+\begin{enumerate}
+\item Month 10 to Month 12
+\item ISMIR 2019 conference, if not ISMIR workshop 2019
+\end{enumerate}
 \subsection{Project 2: Testing on well defined MIR tasks}
-While working on implementing existing attacks and defenses in GTZAN we will identify a more well defined task to test the results on. Candidate tasks include instrument recognition, vocal activity detection.
+In the introduction for this proposal we said that genre classification has opinion based truths. Genre is a subjective definition and what one person might classify as hard rock might be classified as metal by someone else. In addition to there being issues with genre as a label, research has shown that there are inherent problems with the GTZAN dataset \cite{}. Both of these qualities make GTZAN not ideal for testing adversarial algorithms. 
+
+Instrument classification is an ideal task for creating adversarial examples because you can create a dataset with small number of well defined classes and a lot of examples per class.  NSynth \cite{nsynth2017} is a datset that contains a large collection of notes produced by different instruments. It is very useful for instrument classification because it is a dataset of monophonic clean sounds which means it should be easy to train a high accuracy classifier on this dataset. The IRMAS \cite{bosch2012comparison} dataset is an alternative to NSynth, but IRMAS is made for predominant instrument recognition so it contains a polyphonic mixture of instruments.
+
+\begin{enumerate}
+\item Month 11 to Month 14
+\item ICASSP 2020, if not NeurIPS workshop 2019
+\end{enumerate}
 
 \subsection{Project 3: Verifying the properties of adversarial attacks for music}
+The main properties that we want to test are as follows:
+\begin{enumerate}
+\item Transferability of adversaries between different deep learning models trained on the same dataset
+\item Using an ensemble to create stronger adversaries
+\item Transferability of adversaries between different datasets that have the same classes
+\item Universal perturbation to generate adversaries easily
+\item Robustness of adversaries to compression such as mp3
+\item Robustness of adversaries to playing over the speaker and recording it
+\end{enumerate}
 
+There are a lot of interesting properties to verify. However, conducting experiments to verify all of these properties is going to take too long. By the time we start working on this project we hope to identify the most important properties to focus on, these will most likely be those properties that lead naturally into the next project on MIR specific properties of adversaries.
+
+In order to do research on the properties of adversaries we require two or more datasets that have similar classes and two or more deep learning models trained on each dataset. 
+\begin{enumerate}
+\item Month 15 to Month 18
+\item ISMIR 2020
+\end{enumerate}
 \subsection{Project 4: Identifying properties of adversarial examples in MIR}
+Deep learning tasks in MIR have different types of inputs for the same tasks. Some deep learning models use raw audio, some use mel spectrograms, some use short time fourier transforms, some use constant -Q transforms etc. It would be interesting to see if adversarial examples generated on a model that uses one type of input works on a model with a different type of input. In effect, we woulbe be looking for transferability of adversaries between different input representations.
 
+It would be interesting to see if music adversaries transfer across different MIR tasks. For example, if we generate an adversary for instrument classification and test it on pitch estimation will it still work as an adversary and vice versa. 
 \subsection{Project 5: Multi-task learning as a defense}
+
 
 \subsection{Project 6: Adversaries for generative and transformative music applications}
 
@@ -809,7 +838,7 @@ Summarize the whole proposal
 
 % use section* for acknowledgment
 \section*{Acknowledgment}
-
+I would like to thank Prof. Mark Sandler, Dr. Emmanouil Benetos, Dr. Ning Xu and Mr. SKoT McDonald for the help and support they have given in shaping my stage-0 report and developing a long term plan for my PhD. I also want to thank ROLI for giving me access to their facilities which help my research.
 
 
 
