@@ -472,33 +472,20 @@ MIR
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
 
-Music performance analysis can be simply defined as understanding specific features of the music in order to assess it for a specific purpose. A student might want to analyze a professional recording to understand better playing technique and  rhythm accuracy, a streaming service company might want to analyze music to create tags to help users browse through music easily, a music production company might want to organize sounds based on timbral similarity and pitch etc. So we can see that music performance analysis is of importance and there is a breadth of features that would help with the analysis of the music.
+Music performance analysis is a popular area of study spanning more than a century worth of research. Gabrielsson \cite{gabrielsson_music_2003} wrote an extremely detailed and enlightening article on the evolution of research in music performance analysis. Using the organization of music performance analysis expressed in Gabrielsson's work \cite{gabrielsson_music_2003} measuring music performance and using those measuremnts to create models for performance is most relevant to our proposed work. In the summary Gabrielsson says that most of the work on measuring music performance focuses on timing, dynamics, intonation and vibrato. In this PhD we want to continue focussing on these popular features that are measured for music performance analysis and our contributions will be towards using deep learning algorithms to improve the accuracy of the features we are trying to measure. 
 
-In this PhD we want to focus on deep learning approaches towards learning these features. Research in the field of music information retrieval (MIR) has shown that deep learning is a good alternative to hand crafted features. As the field of deep learning in MIR matures we have an increasing number of new model architectures on the new datasets. This increase in new models and datasets makes it harder to compare which model is better.  
+Humphrey, Bello and LeCun \cite{humphrey_moving_nodate} suggested that deep learning can learn more complex features for music information retrieval tasks and give the research community an alternative to hand crafted feature design. Since then a lot of deep learning research has taken place in the music information retrieval community \cite{wang_improving_2014},\cite{zhou_chord_2015},\cite{dieleman_end--end_2014},\cite{dieleman_multiscale_nodate},\cite{costa_evaluation_2017}. 
+Despite the popularity of deep learning there is relatively little research that tries to understand why deep learning is effective at solving MIR tasks \cite{mishra_understanding_2018},\cite{choi_explaining_2016}.
 
 One of the biggest challenges of deep learning that remains today is the interpretability of the features being learned. Due to the non-linearity and complexity of these models it is not a simple task to understand exactly what is being learned. While we can study saliency maps to identify what neurons are being activated, it is still unclear as to what features are being learned exactly even when the model is performing really well.
 
-The fact that there is lack of understanding of the underlying features poses the concern of how well can we trust the output of the system. Recent research \cite{szegedy_intriguing_2013} \cite{goodfellow_explaining_2014} has shown that it is possible to fool the classifier into misclassifying the input by applying an imperceptible non-random values to it. This exposed the vulnerability of deep learning and quickly became a popular area of research in security and privacy of image recognition algorithms. 
+The fact that there is lack of understanding of the underlying features poses the concern of how well can we trust the output of the system. Recent research \cite{szegedy_intriguing_2013} \cite{goodfellow_explaining_2014} has shown that it is possible to fool the classifier into misclassifying the input by applying imperceptible non-random values to it. This exposed the vulnerability of deep learning and quickly became a popular area of research in security and privacy of image recognition algorithms. 
 
 In music applications adversarial examples could pose a challenge in terms of identifying copyrighted content on websites. 
 
 The more general conclusions that can be drawn from \cite{szegedy_intriguing_2013} and \cite{goodfellow_explaining_2014} is that deep learning models are not learning high level features as well as we expect them too. So by using the techniques described in these papers we can indirectly determine whether deep learning models are learning high level features in way that we expect them to. 
 
-The original title for this project was 'Note level features for music performance analysis and visualization'. We will go through each part of this title and explain how it is related to robust deep learning and tied to the MIP-frontiers broader interest of research that gives back to the citizens of the European Union. Note level features include features such as pitch, onsets, playing technique, timbre etc. The purpose of these note level features is to capture the musical performance and transform them or generate new performances.
 
-These different note level features have already been studied in detail from signal processing to deep learning approaches. Before we start suggesting new deep learning methods that will improve the accuracy of these models on some dataset we want to understand if the features being learned are meaningful and understand how to develop a new system that captures features that are more musically meaningful. By using this work flow to create new deep learning models we hope to create more robust deep learning systems.
-
-We have listed many different types of MIR tasks which we are going to classify as follows:
-
-
-
-\begin{enumerate}
-\item Talk about how it is important for copyright
-\item Important for more robust models
-\item Talk about original title of this project and how it evolved
-\item Classification of MIR tasks
-\item summary of rest of paper
-\end{enumerate}
 
  
 
@@ -512,7 +499,7 @@ We have listed many different types of MIR tasks which we are going to classify 
 \subsection{What are adversarial attacks?}
 Szegedy et al. \cite{szegedy_intriguing_2013} discovered that in object recognition tasks by applying an imperceptible non-random perturbation to the input image the output of the network can be changed. The term "Adversarial examples" is used to describe these perturbed examples. These adversarial examples were attributed to the fact that there are blindspots in the training process for these deep learning models. %Add image examples to demonstrate point
 
-Goodfellow, Shlens and Szegedy \cite{goodfellow_explaining_2014} challenged the idea that adversarial examples were due to blind spots in high dimensional spaces. Instead, they suggested that they are caused due to linearity in deep learning models. According to them LSTMS, ReLUs, maxout networks, CNNs etc. were intentiaonally designed to behave more linearly in order to make them easier to optimize. %Cite LSTMS, ReLUs and maxout
+Goodfellow, Shlens and Szegedy \cite{goodfellow_explaining_2014} challenged the idea that adversarial examples were due to blind spots in high dimensional spaces. Instead, they suggested that they are caused due to linearity in deep learning models. According to them LSTMS \cite{hochreiter_long_1997}, ReLUs \cite{maas_rectier_nodate}, maxout networks \cite{zhang_improving_2014} etc. were intentiaonally designed to behave more linearly in order to make them easier to optimize. %Cite LSTMS, ReLUs and maxout
 
 Assume we have a linear classifier defined by the relationship $y = f(x)$ where $f(x)$ is given by $f(x) = \omega^{T}x$. Our goal is to perturb the input $x$ with perturbation $\eta$ subject to the condition that $D(x+\eta,x)<\epsilon$ where $D$ is some distance measure. We can write the new equation for the ouput of the classifier as:
 
@@ -656,7 +643,7 @@ The goal of this project is to bridge the gap between computer vision and music 
 \subsection{Project 2: Testing on well defined MIR tasks}
 In the introduction for this proposal we said that genre classification has opinion based truths. Genre is a subjective definition and what one person might classify as hard rock might be classified as metal by someone else. In addition to there being issues with genre as a label, research has shown that there are inherent problems with the GTZAN dataset \cite{}. Both of these qualities make GTZAN not ideal for testing adversarial algorithms. 
 
-Instrument classification is an ideal task for creating adversarial examples because you can create a dataset with small number of well defined classes and a lot of examples per class.  NSynth \cite{nsynth2017} is a datset that contains a large collection of notes produced by different instruments. It is very useful for instrument classification because it is a dataset of monophonic clean sounds which means it should be easy to train a high accuracy classifier on this dataset. The IRMAS \cite{bosch2012comparison} dataset is an alternative to NSynth, but IRMAS is made for predominant instrument recognition so it contains a polyphonic mixture of instruments.
+Instrument classification is an ideal task for creating adversarial examples because you can create a dataset with small number of well defined classes and a lot of examples per class.  NSynth \cite{engel_neural_2017} is a datset that contains a large collection of notes produced by different instruments. It is very useful for instrument classification because it is a dataset of monophonic clean sounds which means it should be easy to train a high accuracy classifier on this dataset. The IRMAS \cite{bosch_comparison_2012} dataset is an alternative to NSynth, but IRMAS is made for predominant instrument recognition so it contains a polyphonic mixture of instruments.
 
 \begin{enumerate}
 \item Month 11 to Month 14
